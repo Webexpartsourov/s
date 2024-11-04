@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Super Spinning Circular Image Slider</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f8f9fa;
+        }
+
+        .slider-container {
+            position: relative;
+            width: 400px; /* Adjust width as needed */
+            height: 400px; /* Adjust height as needed */
+            border-radius: 50%; /* Make it circular */
+            overflow: hidden;
+            cursor: pointer; /* Change cursor to pointer */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .slides {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            transition: transform 0.5s ease-in-out; /* Faster transition for super spin */
+            transform-style: preserve-3d; /* Enable 3D effect */
+        }
+
+        .slide {
+            position: absolute;
+            width: 400px; /* Fixed width */
+            height: 400px; /* Fixed height */
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out; /* Faster opacity transition */
+            border-radius: 50%; /* Ensure images are circular */
+        }
+
+        .slide.active {
+            opacity: 1;
+        }
+
+        .slide img {
+            width: 100%; /* Ensure images take full width */
+            height: 100%; /* Ensure images take full height */
+            object-fit: cover; /* Maintain aspect ratio and cover area */
+            border-radius: 50%; /* Ensure images are circular */
+        }
+    </style>
+</head>
+<body>
+
+<div class="slider-container" id="slider">
+    <div class="slides" id="slides">
+        <div class="slide active"><img src="pizza4.jpg" alt="Image 1"></div>
+        <div class="slide"><img src="pizza2.jpg" alt="Image 2"></div>
+        <div class="slide"><img src="pizza1.jpg" alt="Image 3"></div>
+    </div>
+</div>
+
+<script>
+    const slides = document.querySelectorAll('.slide');
+    const slidesContainer = document.getElementById('slides');
+    const slider = document.getElementById('slider');
+    let currentIndex = 0;
+
+    function showSlide(index) {
+        slides.forEach((slide, i) => {
+            slide.classList.remove('active');
+            if (i === index) {
+                slide.classList.add('active');
+            }
+        });
+
+        // Calculate rotation angle for a super spin effect
+        const angle = (360 / slides.length) * index;
+        slidesContainer.style.transform = `rotateY(-${angle * 3}deg)`; // Spin three times
+    }
+
+    slider.addEventListener('click', () => {
+        currentIndex = (currentIndex + 1) % slides.length;
+        showSlide(currentIndex);
+    });
+
+    showSlide(currentIndex); // Show the first slide initially
+</script>
+
+</body>
+</html>
